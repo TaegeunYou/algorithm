@@ -1,7 +1,7 @@
 package programmers.level1
 
-class Solution {
-    fun solution010701(s: String): Int {
+class Solution010701 {
+    fun solution(s: String): Int {
         var x = ' '
         var xNum = 0
         var otherNum = 0
