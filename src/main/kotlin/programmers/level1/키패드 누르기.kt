@@ -11,20 +11,20 @@ class Solution011001 {
                              0 to Pair(1, 0),
         )
         return numbers.joinToString("") {
+            val target = positionMap[it]!!
             when (it) {
                 1, 4, 7 -> {
-                    left = positionMap[it]!!
+                    left = target
                     "L"
                 }
                 3, 6, 9 -> {
-                    right = positionMap[it]!!
+                    right = target
                     "R"
                 }
                 else -> {
-                    val target = positionMap[it]!!
                     val leftDistance = Math.abs(target.first - left.first) + Math.abs(target.second - left.second)
                     val rightDistance = Math.abs(target.first - right.first) + Math.abs(target.second - right.second)
-                    if (rightDistance > leftDistance || (leftDistance == rightDistance && hand == "left")) {
+                    if (leftDistance < rightDistance || (leftDistance == rightDistance && hand == "left")) {
                         left = target
                         "L"
                     } else {
