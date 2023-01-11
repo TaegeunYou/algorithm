@@ -12,8 +12,7 @@ class Solution011101 {
         val newBox = ArrayDeque<Int>()
         var answer = 0
         moves.forEach { doll ->
-            box[doll-1].lastOrNull()?.also {
-                box[doll-1].removeLast()
+            box[doll-1].removeLastOrNull()?.also {
                 if (newBox.lastOrNull() == it) {
                     newBox.removeLast()
                     answer += 2
