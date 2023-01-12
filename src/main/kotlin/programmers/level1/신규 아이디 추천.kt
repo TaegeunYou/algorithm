@@ -6,15 +6,9 @@ class Solution011201 {
             .filter {
                 it.isLowerCase() || it.isDigit() || it == '-' || it == '_' || it == '.'
             }
-            .replace("..*.".toRegex(), ".")
+            .replace("[.]+".toRegex(), ".")
+            .removePrefix(".").removeSuffix(".")
             .let {
-                if (it.firstOrNull() == '.') {
-                    it.substring(1..it.lastIndex)
-                } else it
-                if (it.lastOrNull() == '.') {
-                    it.substring(0..it.lastIndex - 1)
-                } else it
-            }.let {
                 it.ifEmpty {
                     "a"
                 }
