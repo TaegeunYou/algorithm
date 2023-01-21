@@ -1,4 +1,4 @@
-package leetcode.easy
+package leetcode
 
 class Solution012001 {
     fun getConcatenation(nums: IntArray): IntArray {

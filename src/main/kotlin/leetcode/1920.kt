@@ -1,4 +1,4 @@
-package leetcode.easy
+package leetcode
 
 class Solution012002 {
     fun buildArray(nums: IntArray): IntArray {
