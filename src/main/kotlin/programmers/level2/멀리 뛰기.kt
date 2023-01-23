@@ -2,7 +2,7 @@ package programmers.level2
 
 import java.math.BigDecimal
 
-class Solution {
+class Solution012201 {
     fun solution(n: Int): Long {
         return (0..n/2).sumOf {
             val numTwo = it
@@ -15,8 +15,4 @@ class Solution {
             total.multiply(i.toBigDecimal())
         }
     }
-}
-
-fun main() {
-    println(Solution().solution(4))
 }
