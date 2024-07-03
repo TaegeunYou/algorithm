@@ -16,7 +16,7 @@ class Solution011101 {
                 if (newBox.lastOrNull() == it) {
                     newBox.removeLast()
                     answer += 2
-                } else newBox.addLast(it)
+                } else newBox.add(it)
             }
         }
         return answer

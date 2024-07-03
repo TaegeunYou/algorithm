@@ -1,1 +1,1 @@
-# algorithm-kotlin
+# algorithm
