@@ -1,6 +1,5 @@
 package main.java.inflearn;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main0107 {
