@@ -1,4 +1,4 @@
-package main.java.inflearn;
+package main.java.inflearn.String;
 
 import java.math.BigDecimal;
 import java.util.Scanner;

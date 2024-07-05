@@ -1,4 +1,4 @@
-package main.java.inflearn;
+package main.java.inflearn.Array;
 
 import java.util.*;
 
