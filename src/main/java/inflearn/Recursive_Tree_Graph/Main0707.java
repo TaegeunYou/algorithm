@@ -15,7 +15,8 @@ public class Main0707 {
         queue.offer(new Node(1));
         int level = 0;
         while (!queue.isEmpty()) {
-            for (int i = 0; i < queue.size(); i++) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
                 Node tmp = queue.poll();
                 System.out.println(level + " : " + tmp.data);
                 if (tmp.lt != null) queue.offer(tmp.lt);
