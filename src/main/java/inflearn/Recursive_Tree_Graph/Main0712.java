@@ -1,6 +1,5 @@
 package main.java.inflearn.Recursive_Tree_Graph;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -15,29 +14,25 @@ import java.util.Scanner;
  * 4 2
  * 4 5
  */
-public class Main0713 {
+public class Main0712 {
 
+    static int[][] arr;
+    static int[] check;
     static int n;
-    static int answer;
-    static int[] ch;
-
-    static ArrayList<ArrayList<Integer>> list;
+    static int answer = 0;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         n = in.nextInt();
         int m = in.nextInt();
-        list = new ArrayList<>();
-        ch = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
-            list.add(new ArrayList<>());
-        }
+        arr = new int[n+1][n+1];
         for (int i = 0; i < m; i++) {
             int a = in.nextInt();
             int b = in.nextInt();
-            list.get(a).add(b);
+            arr[a][b] = 1;
         }
-        ch[1] = 1;
+        check = new int[n + 1];
+        check[1] = 0;
         dfs(1);
         System.out.println(answer);
     }
@@ -47,11 +42,11 @@ public class Main0713 {
             answer++;
             return;
         }
-        for (int i : list.get(num)) {
-            if (ch[i] == 0) {
-                ch[i] = 1;
+        for (int i = 1; i <= n; i++) {
+            if (arr[num][i] == 1 && check[i] == 0) {
+                check[i] = 1;
                 dfs(i);
-                ch[i] = 0;
+                check[i] = 0;
             }
         }
     }
