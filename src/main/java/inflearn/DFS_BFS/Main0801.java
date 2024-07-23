@@ -1,4 +1,4 @@
-package main.java.inflearn.Recursive_Tree_Graph;
+package main.java.inflearn.DFS_BFS;
 
 import java.util.Scanner;
 
