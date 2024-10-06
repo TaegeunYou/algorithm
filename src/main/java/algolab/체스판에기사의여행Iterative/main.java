@@ -7,89 +7,106 @@ import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class main {
-    int[] dx = {-2, -1, 1, 2, 2, 1, -1, -2};
-    int[] dy = {-1, -2, -2, -1, 1, 2, 2, 1};
-    private void solution() throws IOException {
+
+    private static final int MAX_SIZE = 9;
+    private static final int MARKED = 1;
+    private static final int UNMARKED = 0;
+
+    private static final int[][] DIRECTIONS = {
+        {1, -2}, {2, -1}, {2, 1}, {1, 2},
+        {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}
+    };
+
+    private static int[][] board = new int[MAX_SIZE][MAX_SIZE];
+    private static int[][] movePath = new int[MAX_SIZE][MAX_SIZE];
+    private static Stack<Position> visitedPositions = new Stack<>();
+
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int testCases = Integer.parseInt(br.readLine());
         StringBuilder sb = new StringBuilder();
 
-        int t = Integer.parseInt(br.readLine());
-        for (int i = 0; i < t; i++) {
+        while (testCases > 0) {
+            testCases--;
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int m = Integer.parseInt(st.nextToken());
-            int n = Integer.parseInt(st.nextToken());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            Result result = iterative(m, n, a, b);
-            sb.append(result.type).append("\n");
-            if (result.type == 1) {
-                for (int j = 0; j < m; j++) {
-                    for (int k = 0; k < n; k++) {
-                        sb.append(result.arr[j][k]).append(" ");
-                    }
-                    sb.deleteCharAt(sb.length() - 1);
-                    sb.append("\n");
+            int rows = Integer.parseInt(st.nextToken());
+            int cols = Integer.parseInt(st.nextToken());
+            int startX = Integer.parseInt(st.nextToken());
+            int startY = Integer.parseInt(st.nextToken());
+
+            Position startPosition = new Position(startY, startX, 1, 0);
+            visitedPositions.push(startPosition);
+
+            for (int row = 1; row <= rows; row++) {
+                for (int col = 1; col <= cols; col++) {
+                    board[row][col] = UNMARKED;
                 }
             }
-        }
 
-        br.close();
+            board[startPosition.y][startPosition.x] = MARKED;
+            movePath[startPosition.y][startPosition.x] = 1;
+
+            if (performKnightTour(rows, cols)) {
+                sb.append(1).append("\n");
+                for (int row = 1; row <= rows; row++) {
+                    for (int col = 1; col <= cols; col++) {
+                        sb.append(movePath[row][col]).append(" ");
+                    }
+                    sb.append("\n");
+                }
+            } else {
+                sb.append("0").append("\n");
+            }
+
+            visitedPositions.clear();
+        }
+        sb.deleteCharAt(sb.length() - 1);
         System.out.println(sb);
     }
 
-    private Result iterative(int m, int n, int x, int y) {
-        Stack<Node> stack = new Stack<>();
-        stack.push(new Node(x, y, 1, new int[m][n]));
-        while (!stack.isEmpty()) {
-            Node node = stack.pop();
-            node.arr[node.x][node.y] = node.num;
-            if (node.num == m * n) return new Result(1, node.arr);
-            for (int i = 0; i < dx.length; i++) {
-                int nx = node.x + dx[i];
-                int ny = node.y + dy[i];
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && node.arr[nx][ny] == 0) {
-                    int[][] copyArray = copyArray(node.arr);
-                    stack.push(new Node(nx, ny, node.num + 1, copyArray));
+    private static boolean performKnightTour(int rows, int cols) {
+        boolean hasNextMove;
+        Position currentPosition, nextPosition;
+
+        while (!visitedPositions.isEmpty() && visitedPositions.peek().moveCount < rows * cols) {
+            hasNextMove = false;
+            currentPosition = visitedPositions.peek();
+
+            for (int i = currentPosition.directionIndex; i < 8; i++) {
+                int nextX = currentPosition.x + DIRECTIONS[i][0];
+                int nextY = currentPosition.y + DIRECTIONS[i][1];
+                currentPosition.directionIndex++;
+
+                if (nextX > 0 && nextX <= cols && nextY > 0 && nextY <= rows && board[nextY][nextX] != MARKED) {
+                    nextPosition = new Position(nextX, nextY, currentPosition.moveCount + 1, 0);
+                    board[nextY][nextX] = MARKED;
+                    movePath[nextY][nextX] = nextPosition.moveCount;
+                    visitedPositions.push(nextPosition);
+                    hasNextMove = true;
+                    break;
                 }
             }
-        }
-        return new Result(0, null);
-    }
 
-    private int[][] copyArray(int[][] arr) {
-        int[][] newArray = new int[arr.length][arr[0].length];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                newArray[i][j] = arr[i][j];
+            if (hasNextMove) {
+                continue;
             }
+
+            visitedPositions.pop();
+            board[currentPosition.y][currentPosition.x] = UNMARKED;
         }
-        return newArray;
+
+        return !visitedPositions.isEmpty() && visitedPositions.peek().moveCount == rows * cols;
     }
 
-    class Node {
-        int x;
-        int y;
-        int num;
-        int[][] arr;
-        public Node(int x, int y, int num, int[][] arr) {
+    private static class Position {
+        int x, y, moveCount, directionIndex;
+
+        Position(int x, int y, int moveCount, int directionIndex) {
             this.x = x;
             this.y = y;
-            this.num = num;
-            this.arr = arr;
+            this.moveCount = moveCount;
+            this.directionIndex = directionIndex;
         }
     }
 
-    class Result {
-        int type;
-        int[][] arr;
-
-        public Result(int type, int[][] arr) {
-            this.type = type;
-            this.arr = arr;
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        new main().solution();
-    }
 }
