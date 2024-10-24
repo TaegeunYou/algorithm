@@ -43,6 +43,13 @@ public class main {
         br.close();
     }
 
+    /**
+     * 큰 사각형 안에서 각 잘라진 사각형을 대표하는 중간 4개의 점을 기준으로 각 평면이 모두 0인지 확인
+     * -> 확인할때 대표점은 왼쪽 위 구석점을 파라미터로 해서 확인
+     * 확인한 평면이 모두 0이면 해당 대표점을 색칠
+     *
+     * 각 대표점들이 포함된 잘라진 사각형에 대해서 동일한 방법으로 확인함.
+     */
     public static void recursive(int x, int y, int size) {
         num++;
         int ns = size / 2;
